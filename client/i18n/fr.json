@@ -10,5 +10,15 @@
 	"forgotpassword":	"Mot de passe oublié ?",
 	"enterpassword":	"Veuillez entrer votre couriel, un nouveau mot de passe vous sera envoyé",
 	"ok":				"Ok",
-	"cancel":			"Annuler"
+	"cancel":			"Annuler",
+	"inscription":		"Inscription",
+	"username":			"Nom d'utilisateur",
+	"private": 			"Privé",
+	"admin":			"Administrateur",
+	"chat":				"Chat",
+	"errtitle":			"Oups! Une erreur est survenue",
+	"waitwhileloading":	"Merci de patienter pendant le chargement",
+	"loading":			"Chargement ...",
+	"leave":			"Deconnexion",
+	"profile":			"Profile"
 }

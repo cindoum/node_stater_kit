@@ -1,6 +1,6 @@
 angular.module('angular-client-side-auth')
 .controller('LoginCtrl',
-['$rootScope', '$scope', '$location', '$window', 'Auth', 'socket', '$modal', 'notif', function($rootScope, $scope, $location, $window, Auth, socket, $modal, notif) {
+['$rootScope', '$scope', '$location', '$window', 'Auth', 'socket', '$modal', 'notif', 'localize', function($rootScope, $scope, $location, $window, Auth, socket, $modal, notif, localize) {
     var _init = function () {
         $scope.user = { retrievePassword: {}, rememberme: true};
     };
@@ -15,7 +15,7 @@ angular.module('angular-client-side-auth')
                 $location.path('/');
             },
             function(err) {
-                notif.error(err, 'Oups!');
+                notif.error(err, localize.getLocalizedString("errtitle"));
             });
     };
     

@@ -3,9 +3,9 @@ form.form-horizontal(ng-submit="login()", name="loginForm", role="form", novalid
     .form-group.has-feedback.input-group(ng-class="{ 'has-error' : loginForm.email.$invalid && !loginForm.email.$pristine, 'has-success': !loginForm.email.$invalid && !loginForm.email.$pristine && email != ''}")
         span.input-group-addon
             i.fa.fa-envelope.fa-fw
-        input.form-control(type="email", required, data-ng-model="user.email", placeholder="email" data-i18n="i18n-placeholder", name="email", autofocus, id="login_email")
+        input.form-control(type="email", required, data-ng-model="user.email", placeholder="email", data-i18n="i18n-placeholder", name="email", autofocus, id="login_email")
         span.input-group-addon(ng-if="loginForm.email.$invalid && !loginForm.email.$pristine")
-            span Couriel n'est pas valide &nbsp
+            span
                 i.fa.fa-times.fa-fw
         span.input-group-addon(ng-if="!loginForm.email.$invalid && !loginForm.email.$pristine")
             span
@@ -15,13 +15,13 @@ form.form-horizontal(ng-submit="login()", name="loginForm", role="form", novalid
             i.fa.fa-lock.fa-fw
         input.form-control(type="password", data-ng-model="user.password", placeholder="password" data-i18n="i18n-placeholder", name="password", required, data-ng-minlength="5", data-ng-maxlength="60", id="login_password")
         span.input-group-addon(ng-if="loginForm.password.$error.required && !loginForm.password.$pristine")
-            span Mot de passe obligatoire &nbsp
+            span 
                 i.fa.fa-times.fa-fw
         span.input-group-addon(ng-if="loginForm.password.$error.minlength && !loginForm.password.$pristine")
-            span Mot de passe trop court &nbsp
+            span
                 i.fa.fa-times.fa-fw 
         span.input-group-addon(ng-if="loginForm.password.$error.maxlength && !loginForm.password.$pristine")
-            span Mot de passe trop long &nbsp
+            span 
                 i.fa.fa-times.fa-fw
         span.input-group-addon(ng-if="!loginForm.password.$invalid && !loginForm.password.$pristine")
             span

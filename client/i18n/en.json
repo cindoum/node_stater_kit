@@ -10,5 +10,15 @@
 	"forgotpassword":	"Forgot password ?",
 	"enterpassword":	"Please enter your email address, we will send you your new password there",
 	"ok":				"Ok",
-	"cancel":			"Cancel"
+	"cancel":			"Cancel",
+	"inscription":		"Inscription",
+	"username":			"Username",
+	"private": 			"Private",
+	"admin":			"Administrator",
+	"chat":				"Chat",
+	"errtitle":			"Oups! An error occured",
+	"waitwhileloading":	"Please wait while loading",
+	"loading":			"Loading ...",
+	"leave":			"Logout",
+	"profile":			"Profile"
 }

@@ -10,8 +10,8 @@ angular.module('angular-client-side-auth')
         Auth.logout(function() {
             socket.disconnect();
             $location.path('/login');
-        }, function() {
-            notif.warning('La tentative de déconnexion à échoué.', 'Ouop!');
+        }, function(error) {
+            notif.warning(error, 'Ouop!');
         });
     };
     

@@ -1,8 +1,15 @@
 angular.module('toastr', [])
-  .directive('toast', ['$compile', '$timeout', 'toastr', function($compile, $timeout, toastr) {
+
+  .directive('toast', ['$timeout', 'toastr', function($timeout, toastr) {
     return {
       replace: true,
-      templateUrl: 'templates/toastr/toastr.html',
+      template: '<div class="{{toastClass}} {{toastType}}" ng-click="close()">' +
+                    '<div ng-if="title" class="{{titleClass}}" ng-click="fn()">{{title}}</div>' +
+                    '<div ng-switch on="messageType">' +
+                      '<div ng-switch-when="trusted" class="{{messageClass}}" ng-bind-html="message"></div>' +
+                      '<div ng-switch-default class="{{messageClass}}">{{message}}</div>' +
+                    '</div>' +
+                '</div>',
       link: function(scope, element, attrs) {
         var timeout;
 
@@ -10,18 +17,9 @@ angular.module('toastr', [])
         scope.titleClass = scope.options.titleClass;
         scope.messageClass = scope.options.messageClass;
 
-        if (scope.options.closeHtml) {
-          var button = angular.element(scope.options.closeHtml);
-          button.addClass('toast-close-button');
-          button.attr('ng-click', 'close()');
-          $compile(button)(scope);
-          element.prepend(button);
-        }
-
         scope.init = function() {
-          if (scope.options.timeOut) {
-            timeout = createTimeout(scope.options.timeOut);
-          }
+          if (scope.options.timeOut === 0 && scope.options.extendedTimeOut === 0) { return; }
+          timeout = createTimeout(scope.options.timeOut);
         };
 
         element.on('mouseenter', function() {
@@ -30,13 +28,7 @@ angular.module('toastr', [])
           }
         });
 
-        scope.tapToast = function () {
-          if (scope.options.tapToDismiss) {
-            scope.close();
-          }
-        };
-
-        scope.close = function () {
+        scope.close = function() {
           toastr.remove(scope.toastId);
         };
 
@@ -56,19 +48,17 @@ angular.module('toastr', [])
 
   .constant('toastrConfig', {
     allowHtml: false,
-    closeButton: false,
-    closeHtml: '<button>&times;</button>',
     containerId: 'toast-container',
     extendedTimeOut: 1000,
     iconClasses: {
       error: 'toast-error',
       info: 'toast-info',
       success: 'toast-success',
-      warning: 'toast-warning'
+      warning: 'toast-warning',
+      wait: 'toast-wait',
     },
     messageClass: 'toast-message',
     positionClass: 'toast-top-right',
-    tapToDismiss: true,
     timeOut: 5000,
     titleClass: 'toast-title',
     toastClass: 'toast'
@@ -84,7 +74,9 @@ angular.module('toastr', [])
       info: info,
       remove: remove,
       success: success,
-      warning: warning
+      warning: warning,
+      wait: wait,
+      toasts: toasts,
     };
 
     return toastr;
@@ -135,6 +127,15 @@ angular.module('toastr', [])
         title: title
       });
     }
+    
+    function wait(message, title, optionsOverride) {
+      return _notify({
+        iconClass: _getOptions().iconClasses.wait,
+        message: message,
+        optionsOverride: optionsOverride,
+        title: title
+      });
+    }
 
     /* Internal functions */
     function _getOptions() {
@@ -147,7 +148,6 @@ angular.module('toastr', [])
       container = angular.element('<div></div>');
       container.attr('id', options.containerId);
       container.addClass(options.positionClass);
-      container.css({'pointer-events': 'auto'});
       var body = $document.find('body').eq(0);
       $animate.enter(container, body, null, function() {
         containerDefer.resolve();
@@ -175,20 +175,24 @@ angular.module('toastr', [])
       toasts.push(newToast);
 
       _setContainer(options).then(function() {
-        $animate.enter(newToast.el, container, null, function() {
-          newToast.scope.init();
-        });
+          if (container != null) {
+              $animate.enter(newToast.el, container, null, function() {
+                newToast.scope.init();
+              });
+          }
       });
 
       return newToast;
 
       function createScope(toast, map, options) {
+        if (map.title) {
+          toast.scope.title = map.title;
+        }
+
         if (options.allowHtml) {
-          toast.scope.allowHtml = true;
-          toast.scope.title = $sce.trustAsHtml(map.title);
+          toast.scope.messageType = 'trusted';
           toast.scope.message = $sce.trustAsHtml(map.message);
         } else {
-          toast.scope.title = map.title;
           toast.scope.message = map.message;
         }
 
@@ -198,15 +202,10 @@ angular.module('toastr', [])
         toast.scope.options = {
           extendedTimeOut: options.extendedTimeOut,
           messageClass: options.messageClass,
-          tapToDismiss: options.tapToDismiss,
           timeOut: options.timeOut,
           titleClass: options.titleClass,
           toastClass: options.toastClass
         };
-
-        if (options.closeButton) {
-          toast.scope.options.closeHtml = options.closeHtml;
-        }
       }
 
       function createToast(scope) {
@@ -240,19 +239,3 @@ angular.module('toastr', [])
       }
     }
   }]);
-
-angular.module('toastr').run(['$templateCache', function($templateCache) {
-  'use strict';
-
-  $templateCache.put('templates/toastr/toastr.html',
-    "<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n" +
-    "  <div ng-switch on=\"allowHtml\">\n" +
-    "    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\">{{title}}</div>\n" +
-    "    <div ng-switch-default class=\"{{messageClass}}\">{{message}}</div>\n" +
-    "    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n" +
-    "    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n" +
-    "  </div>\n" +
-    "</div>"
-  );
-
-}]);

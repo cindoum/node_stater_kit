@@ -1,6 +1,6 @@
 angular.module('angular-client-side-auth')
 .controller('RegisterCtrl',
-['$rootScope', '$scope', '$location', 'Auth', 'notif', function($rootScope, $scope, $location, Auth, notif) {
+['$rootScope', '$scope', '$location', 'Auth', 'notif', 'localize', function($rootScope, $scope, $location, Auth, notif, localize) {
     var _init = function () {
         $scope.role = Auth.userRoles.user;
         $scope.userRoles = Auth.userRoles;
@@ -17,7 +17,7 @@ angular.module('angular-client-side-auth')
                 $location.path('/');
             },
             function(err) {
-                notif.error(err, 'Oups!');
+                notif.error(err, localize.getLocalizedString("errtitle"));
             });
     };
     

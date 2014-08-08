@@ -150,12 +150,11 @@ angular.module('angular-client-side-auth', ['ui.bootstrap', 'ngCookies', 'ui.rou
     };
 }])
 
-.run(['$rootScope', '$state', 'Auth', 'notif', function ($rootScope, $state, Auth, notif) {
+.run(['$rootScope', '$state', 'Auth', 'notif', 'localize', function ($rootScope, $state, Auth, notif, localize) {
     var toast;
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-        toast = notif.wait('Merci de patienter pendant le chargement de la page', 'Chargement');
         if (!Auth.authorize(toState.data.access)) {
-            notif.error('Vous ne pouvez pas allez la!', 'Oups!');
+            notif.error('Vous ne pouvez pas allez la!', localize.getLocalizedString('errtitle'));
             event.preventDefault();
             
             if(Auth.isLoggedIn()) {
@@ -163,6 +162,11 @@ angular.module('angular-client-side-auth', ['ui.bootstrap', 'ngCookies', 'ui.rou
             } else {
                 $state.go('anon.login');
             }
+            
+            notif.clear(toast);
+        }
+        else {
+            toast = notif.wait(localize.getLocalizedString('waitwhileloading'), localize.getLocalizedString('loading'));
         }
     });
     

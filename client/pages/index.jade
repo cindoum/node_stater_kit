@@ -3,9 +3,9 @@ html(lang='en', data-ng-app='angular-client-side-auth')
     head
         meta(charset='utf-8')
         title Angular Auth Example
-        link(href="/components/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
-        link(href="/components/font-awesome/css/font-awesome.min.css", rel="stylesheet")
-        link(rel='stylesheet', href='/components/angular-toastr/dist/angular-toastr.css')
+        link(href="/bower_components/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+        link(href="/bower_components/font-awesome/css/font-awesome.min.css", rel="stylesheet")
+        link(rel='stylesheet', href='/js/services/angular-toastr.css')
         link(rel='stylesheet', href='/css/app.css')
         link(rel='stylesheet', href='/css/tooltip.css')
 
@@ -33,19 +33,21 @@ html(lang='en', data-ng-app='angular-client-side-auth')
                                 li(data-ng-show="lang !== 'English' ") 
                                     a(data-ng-click="setLang('English')" href="javascript:;") 
                                         .flag.flags-american
+                                            span(style="margin-left: 50px; line-height: 32px") English
                                 li(data-ng-show="lang !== 'Français' ")
                                     a(data-ng-click="setLang('Français')" href="javascript:;")
                                         .flag.flags-france
+                                            span(style="margin-left: 50px; line-height: 32px") Français
                         li(data-access-level='accessLevels.anon', active-nav)
                             a(href='#/login')
                                 span(data-i18n="login")
                                 i.fa.fa-sign-in
                         li(data-access-level='accessLevels.user', active-nav='nestedTop')
-                            a(href='#/private') Privé
+                            a(href='#/private', data-i18n="private")
                         li(data-access-level='accessLevels.admin', active-nav)
-                            a(href='#/admin') Admin
+                            a(href='#/admin', data-i18n="admin")
                         li(data-access-level='accessLevels.user', active-nav)
-                            a(href='#/chat') Chat
+                            a(href='#/chat', data-i18n="chat")
                     ul.nav.navbar-nav.pull-right
                         li#join(data-access-level='accessLevels.anon', active-nav)
                             a(href='#/register')
@@ -58,27 +60,23 @@ html(lang='en', data-ng-app='angular-client-side-auth')
                             ul.dropdown-menu
                                 li
                                     a(href="", data-ng-click="logout()")
-                                        i.fa.fa-sign-out &nbsp Quitter
+                                        i.fa.fa-sign-out &nbsp
+                                        span(data-i18n="leave")
                                 li 
                                     a(href="")
-                                        i.fa.fa-male &nbspProfile
-                        
-        #alertBox.alert.alert-danger(data-ng-show="error")
-            button(type="button", class="close", data-ng-click="error = null;") &times;
-            strong Oups!&nbsp;
-            span(data-ng-bind="error")
+                                        i.fa.fa-male &nbsp
+                                        span(data-i18n="profile")
         .container(data-ui-view)
 
         script(src='/socket.io/socket.io.js')
-        script(src='/components/jquery/dist/jquery.js')
-        script(src='/components/angular/angular.js')
-        script(src='/components/angular-cookies/angular-cookies.js')
-        script(src='/components/angular-sanitize/angular-sanitize.js')
-        script(src='/components/angular-toastr/dist/angular-toastr.js')
-        script(src='/components/angular-ui-router/release/angular-ui-router.js')
-        script(src='/components/angular-bootstrap/ui-bootstrap-tpls.js')
-        script(src='/components/lodash/dist/lodash.js')
-        script(src='/components/restangular/dist/restangular.js')
+        script(src='/bower_components/jquery/dist/jquery.js')
+        script(src='/bower_components/angular/angular.js')
+        script(src='/bower_components/angular-cookies/angular-cookies.js')
+        script(src='/bower_components/angular-sanitize/angular-sanitize.js')
+        script(src='/bower_components/angular-ui-router/release/angular-ui-router.js')
+        script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
+        script(src='/bower_components/lodash/dist/lodash.js')
+        script(src='/bower_components/restangular/dist/restangular.js')
         
         script(src='/js/routingConfig.js')
         script(src='/js/app.js')
@@ -86,6 +84,7 @@ html(lang='en', data-ng-app='angular-client-side-auth')
         script(src='/js/services/user_service.js')
         script(src='/js/services/notif_service.js')
         script(src='/js/services/localize_service.js')
+        script(src='/js/services/angular-toastr.js')
         script(src='/pages/nav_controller.js')
         script(src='/pages/admin/admin_controller.js')
         script(src='/pages/login/login_controller.js')
@@ -110,12 +109,12 @@ html(lang='en', data-ng-app='angular-client-side-auth')
         script(type="text/ng-template", id="retrievepopup")
             include login/retrievepassword_popup
         script(type="text/ng-template", id="private/layout")
-            include admin/private/layout
+            include private/layout
         script(type="text/ng-template", id="private/home")
-            include admin/private/home
+            include private/home
         script(type="text/ng-template", id="private/nested")
-            include admin/private/nested
+            include private/nested
         script(type="text/ng-template", id="private/nestedAdmin")
-            include admin/private/nestedAdmin
+            include private/nestedAdmin
         script(type="text/ng-template", id="register")
             include register/register
