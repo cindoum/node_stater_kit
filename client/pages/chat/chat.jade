@@ -1,0 +1,8 @@
+h1 Private Chat
+.row
+    .col-md-4
+        .input-group
+            input.form-control(type="text", data-ng-model="text", placeholder="Texte", name="chat_text", id="chat_text")
+            span.input-group-btn
+                button.btn.btn-default(ng-click="sendText()") Send
+#chatContainer.well

@@ -1,0 +1,55 @@
+h1(data-i18n="login")
+form.form-horizontal(ng-submit="login()", name="loginForm", role="form", novalidate)
+    .form-group.has-feedback.input-group(ng-class="{ 'has-error' : loginForm.email.$invalid && !loginForm.email.$pristine, 'has-success': !loginForm.email.$invalid && !loginForm.email.$pristine && email != ''}")
+        span.input-group-addon
+            i.fa.fa-envelope.fa-fw
+        input.form-control(type="email", required, data-ng-model="user.email", placeholder="email" data-i18n="i18n-placeholder", name="email", autofocus, id="login_email")
+        span.input-group-addon(ng-if="loginForm.email.$invalid && !loginForm.email.$pristine")
+            span Couriel n'est pas valide &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="!loginForm.email.$invalid && !loginForm.email.$pristine")
+            span
+                i.fa.fa-check.fa-fw
+    .form-group.has-feedback.input-group(ng-class="{ 'has-error' : loginForm.password.$invalid && !loginForm.password.$pristine, 'has-success': !loginForm.password.$invalid && !loginForm.password.$pristine && password != ''}")
+        span.input-group-addon
+            i.fa.fa-lock.fa-fw
+        input.form-control(type="password", data-ng-model="user.password", placeholder="password" data-i18n="i18n-placeholder", name="password", required, data-ng-minlength="5", data-ng-maxlength="60", id="login_password")
+        span.input-group-addon(ng-if="loginForm.password.$error.required && !loginForm.password.$pristine")
+            span Mot de passe obligatoire &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="loginForm.password.$error.minlength && !loginForm.password.$pristine")
+            span Mot de passe trop court &nbsp
+                i.fa.fa-times.fa-fw 
+        span.input-group-addon(ng-if="loginForm.password.$error.maxlength && !loginForm.password.$pristine")
+            span Mot de passe trop long &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="!loginForm.password.$invalid && !loginForm.password.$pristine")
+            span
+                i.fa.fa-check.fa-fw
+    .form-group
+        .row
+            .col.col-sm-8
+                .checkbox
+                    label.checkbox(data-i18n="rememberme", for="rememberme")
+                    input(type="checkbox", data-ng-model="user.rememberme", name="rememberme")
+            .col-sm-4
+                button.btn.btn-primary.pull-right(type="submit", data-ng-disabled="loginForm.$invalid" data-i18n="login")
+
+hr
+
+p
+    button.btn.btn-link.pull-right(ng-click="retrievePassword()", data-i18n="forgotpassword")
+    div(data-i18n="otherstrategy")
+.btn-group
+    a.btn.btn-default(href="", data-ng-click="loginOauth('facebook')")
+        i.fa.fa-facebook-square
+        |  Facebook
+    //a.btn.btn-default(href="", data-ng-click="loginOauth('twitter')")
+    //    i.fa.fa-twitter
+    //    |  Twitter
+    a.btn.btn-default(href="", data-ng-click="loginOauth('google')")
+        i.fa.fa-google-plus-square
+        |  Google
+    //a.btn.btn-default(href="", data-ng-click="loginOauth('linkedin')")
+    //    i.fa.fa-linkedin
+    //    |  LinkedIn

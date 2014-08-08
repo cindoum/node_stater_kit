@@ -1,0 +1,121 @@
+doctype html
+html(lang='en', data-ng-app='angular-client-side-auth')
+    head
+        meta(charset='utf-8')
+        title Angular Auth Example
+        link(href="/components/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+        link(href="/components/font-awesome/css/font-awesome.min.css", rel="stylesheet")
+        link(rel='stylesheet', href='/components/angular-toastr/dist/angular-toastr.css')
+        link(rel='stylesheet', href='/css/app.css')
+        link(rel='stylesheet', href='/css/tooltip.css')
+
+        // This is needed because Facebook login redirects add #_=_ at the end of the URL
+        script(type="text/javascript").
+            if (window.location.href.indexOf('#_=_') > 0) {
+                window.location = window.location.href.replace(/#.*/, '');
+            }
+    body(data-ng-cloak)
+        #modal_overlay
+        .navbar.navbar-default.navbar-fixed-top.snavbar-inverse(role='navigation', data-ng-controller="NavCtrl")
+            .navbar-header
+                button.navbar-toggle.btn-navbar(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand.brand(href='/')
+                    img(src='http://placehold.it/350x150')
+            .container
+                .collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li.dropdown.langs.text-normal(data-ng-controller="LangCtrl") 
+                            a.dropdown-toggle.active-flag(data-toggle="dropdown" href="javascript:;" style="padding-top: 10px; padding-bottom: 0;")
+                                .flag(class="{{getFlag()}}")
+                            ul.dropdown-menu.dropdown-dark.with-arrow.list-langs(role="menu") 
+                                li(data-ng-show="lang !== 'English' ") 
+                                    a(data-ng-click="setLang('English')" href="javascript:;") 
+                                        .flag.flags-american
+                                li(data-ng-show="lang !== 'Français' ")
+                                    a(data-ng-click="setLang('Français')" href="javascript:;")
+                                        .flag.flags-france
+                        li(data-access-level='accessLevels.anon', active-nav)
+                            a(href='#/login')
+                                span(data-i18n="login")
+                                i.fa.fa-sign-in
+                        li(data-access-level='accessLevels.user', active-nav='nestedTop')
+                            a(href='#/private') Privé
+                        li(data-access-level='accessLevels.admin', active-nav)
+                            a(href='#/admin') Admin
+                        li(data-access-level='accessLevels.user', active-nav)
+                            a(href='#/chat') Chat
+                    ul.nav.navbar-nav.pull-right
+                        li#join(data-access-level='accessLevels.anon', active-nav)
+                            a(href='#/register')
+                                span(data-i18n="register")
+                                i.fa.fa-pencil-square-o
+                        li.dropdown(data-access-level='accessLevels.user')
+                            a.dropdown-toggle(href="#", data-toggle="dropdown")
+                                {{ user.username }} &nbsp
+                                i.fa.fa-arrow-down 
+                            ul.dropdown-menu
+                                li
+                                    a(href="", data-ng-click="logout()")
+                                        i.fa.fa-sign-out &nbsp Quitter
+                                li 
+                                    a(href="")
+                                        i.fa.fa-male &nbspProfile
+                        
+        #alertBox.alert.alert-danger(data-ng-show="error")
+            button(type="button", class="close", data-ng-click="error = null;") &times;
+            strong Oups!&nbsp;
+            span(data-ng-bind="error")
+        .container(data-ui-view)
+
+        script(src='/socket.io/socket.io.js')
+        script(src='/components/jquery/dist/jquery.js')
+        script(src='/components/angular/angular.js')
+        script(src='/components/angular-cookies/angular-cookies.js')
+        script(src='/components/angular-sanitize/angular-sanitize.js')
+        script(src='/components/angular-toastr/dist/angular-toastr.js')
+        script(src='/components/angular-ui-router/release/angular-ui-router.js')
+        script(src='/components/angular-bootstrap/ui-bootstrap-tpls.js')
+        script(src='/components/lodash/dist/lodash.js')
+        script(src='/components/restangular/dist/restangular.js')
+        
+        script(src='/js/routingConfig.js')
+        script(src='/js/app.js')
+        script(src='/js/services/auth_service.js')
+        script(src='/js/services/user_service.js')
+        script(src='/js/services/notif_service.js')
+        script(src='/js/services/localize_service.js')
+        script(src='/pages/nav_controller.js')
+        script(src='/pages/admin/admin_controller.js')
+        script(src='/pages/login/login_controller.js')
+        script(src='/pages/home/home_controller.js')
+        script(src='/pages/chat/chat_controller.js')
+        script(src='/js/services/socket_service.js')
+        script(src='/pages/register/register_controller.js')
+        script(src='/js/directives/activeNav_directive.js')
+        script(src='/js/directives/auth_directive.js')
+
+        // Partial views... Load up front to make transitions smoother
+        script(type="text/ng-template", id="404")
+            include 404
+        script(type="text/ng-template", id="admin")
+            include admin/admin
+        script(type="text/ng-template", id="home")
+            include home/home
+        script(type="text/ng-template", id="chat")
+            include chat/chat
+        script(type="text/ng-template", id="login")
+            include login/login
+        script(type="text/ng-template", id="retrievepopup")
+            include login/retrievepassword_popup
+        script(type="text/ng-template", id="private/layout")
+            include admin/private/layout
+        script(type="text/ng-template", id="private/home")
+            include admin/private/home
+        script(type="text/ng-template", id="private/nested")
+            include admin/private/nested
+        script(type="text/ng-template", id="private/nestedAdmin")
+            include admin/private/nestedAdmin
+        script(type="text/ng-template", id="register")
+            include register/register

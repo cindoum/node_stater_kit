@@ -1,0 +1,14 @@
+{
+	"hi" : 				"Bonjour",
+	"homecontent":		"Cette vue est visible a tout les utilisateurs",
+	"login":			"Connexion ",
+	"register" :		"Enregistrement ",
+	"email" :			"Couriel",
+	"password" :		"Mot de passe",
+	"rememberme" :		"Se souvenir de moi",
+	"otherstrategy": 	"... Ou connectez vous a l'aide d'un des moyens suivants",
+	"forgotpassword":	"Mot de passe oublié ?",
+	"enterpassword":	"Veuillez entrer votre couriel, un nouveau mot de passe vous sera envoyé",
+	"ok":				"Ok",
+	"cancel":			"Annuler"
+}

@@ -1,0 +1,47 @@
+h1 Inscription
+form.form-horizontal(ng-submit="register()", name="userForm", role="form", novalidate)
+    .form-group.has-feedback.input-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine, 'has-success': !userForm.email.$invalid && !userForm.email.$pristine && email != ''}")
+        span.input-group-addon
+            i.fa.fa-envelope.fa-fw
+        input.form-control(type="email", required, data-ng-model="user.email", placeholder="Couriel", name="email", autofocus, id="login_email")
+        span.input-group-addon(ng-if="userForm.email.$invalid && !userForm.email.$pristine")
+            span Couriel n'est pas valide &nbsp
+                i.fa.fa-times.fa-fw 
+        span.input-group-addon(ng-if="!userForm.email.$invalid && !userForm.email.$pristine")
+            span
+                i.fa.fa-check.fa-fw
+    .form-group.has-feedback.input-group(ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine, 'has-success': !userForm.username.$invalid && !userForm.username.$pristine && username != ''}")
+        span.input-group-addon
+            i.fa.fa-user.fa-fw
+        input.form-control(type="text", data-ng-model="user.username", placeholder="Nom d'utilisateur", name="username", required, data-ng-minlength="3", data-ng-maxlength="20", id="login_username")
+        span.input-group-addon(ng-if="userForm.username.$error.required && !userForm.username.$pristine")
+            span Nom d'utilisateur obligatoire &nbsp
+                i.fa.fa-times.fa-fw 
+        span.input-group-addon(ng-if="userForm.username.$error.minlength && !userForm.username.$pristine")
+            span Nom d'utilisateur trop court &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="userForm.username.$error.maxlength && !userForm.username.$pristine")
+            span Nom d'utilisateur trop long &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="!userForm.username.$invalid && !userForm.username.$pristine")
+            span
+                i.fa.fa-check.fa-fw
+    .form-group.has-feedback.input-group(ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine, 'has-success': !userForm.password.$invalid && !userForm.password.$pristine && password != ''}")
+        span.input-group-addon
+            i.fa.fa-lock.fa-fw
+        input.form-control(type="password", data-ng-model="user.password", placeholder="Mot de passe", name="password", required, data-ng-minlength="5", data-ng-maxlength="60", id="login_password")
+        span.input-group-addon(ng-if="userForm.password.$error.required && !userForm.password.$pristine")
+            span Mot de passe obligatoire &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="userForm.password.$error.minlength && !userForm.password.$pristine")
+            span Mot de passe trop court &nbsp
+                i.fa.fa-times.fa-fw 
+        span.input-group-addon(ng-if="userForm.password.$error.maxlength && !userForm.password.$pristine")
+            span Mot de passe trop long &nbsp
+                i.fa.fa-times.fa-fw
+        span.input-group-addon(ng-if="!userForm.password.$invalid && !userForm.password.$pristine")
+            span
+                i.fa.fa-check.fa-fw
+    .form-group
+        .controls.pull-right
+            button.btn.btn-primary(type="submit", ng-disabled="!userForm.$valid") Valider

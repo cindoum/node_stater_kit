@@ -1,0 +1,14 @@
+{
+	"hi" : 				"Hello",
+	"homecontent" :		"This view is visible to all users",
+	"login" :			"Login ",
+	"register" :		"Register ",
+	"email" :			"Email",
+	"password": 		"Password",
+	"rememberme": 		"Remember me",
+	"otherstrategy": 	"... Or use one of these alternate methods",
+	"forgotpassword":	"Forgot password ?",
+	"enterpassword":	"Please enter your email address, we will send you your new password there",
+	"ok":				"Ok",
+	"cancel":			"Cancel"
+}
